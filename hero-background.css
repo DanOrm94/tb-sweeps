@@ -1,0 +1,5 @@
+/* Warm fireplace background for the homepage hero */
+.hero{background-image:linear-gradient(rgba(12,14,13,.72),rgba(12,14,13,.78)),url("hero-background-faded.jpg");background-size:cover;background-position:center 58%;background-repeat:no-repeat;}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,12,11,.88) 0%,rgba(9,12,11,.66) 46%,rgba(9,12,11,.38) 100%);z-index:0;pointer-events:none;}
+.hero-grid{z-index:1;}
+@media(max-width:850px){.hero{background-position:center center}.hero::before{background:linear-gradient(180deg,rgba(9,12,11,.84),rgba(9,12,11,.7));}}
