@@ -4,15 +4,52 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chimney Repair Before &amp; After | TB Sweeps Manchester</title>
-<meta name="description" content="See TB Sweeps before and after chimney repair and installation work across Manchester, Tameside and surrounding areas.">
+<meta name="description" content="See TB Sweeps chimney, stove, repair and installation work across Manchester, Tameside and surrounding areas.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.tb-sweeps.com/before-after.html">
 <link rel="stylesheet" href="styles.css">
 <style>
 .gallery-intro { max-width: 760px; margin: 0 auto 55px; text-align: center; }
 .gallery-intro p { color: var(--muted); font-size: 17px; margin: 18px 0 0; }
-.gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 105px; gap: 16px; }
-.gallery-item { position: relative; min-width: 0; margin: 0; overflow: hidden; border-radius: 24px; background: var(--dark); cursor: pointer; box-shadow: 0 12px 35px rgba(24,21,15,.10); }
+.gallery-grid { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 105px; gap: 18px; }
+.gallery-item {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  border-radius: 18px;
+  padding: 13px;
+  background: linear-gradient(145deg, #a87548 0%, #6d4328 42%, #3b2417 100%);
+  border: 1px solid rgba(255,255,255,.18);
+  box-shadow: 0 18px 40px rgba(24,21,15,.16), inset 0 1px 0 rgba(255,255,255,.18), inset 0 -1px 0 rgba(0,0,0,.35);
+  cursor: pointer;
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+.gallery-item::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(255,225,190,.24);
+  border-radius: 13px;
+  pointer-events: none;
+  z-index: 3;
+}
+.gallery-item::after {
+  content: "";
+  position: absolute;
+  inset: 13px;
+  border: 9px solid #f3eee5;
+  border-radius: 6px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.22);
+  pointer-events: none;
+  z-index: 2;
+}
+.gallery-item:hover { transform: translateY(-5px) rotate(-.2deg); box-shadow: 0 28px 55px rgba(24,21,15,.22), inset 0 1px 0 rgba(255,255,255,.2), inset 0 -1px 0 rgba(0,0,0,.35); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .35s; }
+.gallery-item:hover img { transform: scale(1.045); filter: brightness(.72); }
+.gallery-overlay { position: absolute; inset: auto 22px 22px; z-index: 4; display: flex; align-items: end; justify-content: space-between; padding: 15px 0 0; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.65), transparent); pointer-events: none; }
+.gallery-overlay strong { font-family: "Manrope", sans-serif; font-size: 14px; }
+.gallery-overlay span { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid rgba(255,255,255,.4); border-radius: 50%; background: rgba(0,0,0,.25); font-size: 16px; }
 .gallery-item:nth-child(1) { grid-column: span 7; grid-row: span 4; }
 .gallery-item:nth-child(2) { grid-column: span 5; grid-row: span 3; }
 .gallery-item:nth-child(3) { grid-column: span 5; grid-row: span 3; }
@@ -20,23 +57,24 @@
 .gallery-item:nth-child(5) { grid-column: span 4; grid-row: span 3; }
 .gallery-item:nth-child(6) { grid-column: span 4; grid-row: span 3; }
 .gallery-item:nth-child(7) { grid-column: span 4; grid-row: span 3; }
-.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .35s; }
-.gallery-item:hover img { transform: scale(1.045); filter: brightness(.72); }
-.gallery-overlay { position: absolute; inset: auto 0 0; display: flex; align-items: end; justify-content: space-between; padding: 22px; color: #fff; background: linear-gradient(to top, rgba(0,0,0,.72), transparent); pointer-events: none; }
-.gallery-overlay strong { font-family: "Manrope", sans-serif; font-size: 16px; }
-.gallery-overlay span { display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; font-size: 17px; }
+.gallery-item:nth-child(8) { grid-column: span 5; grid-row: span 3; }
+.gallery-item:nth-child(9) { grid-column: span 7; grid-row: span 4; }
+.gallery-item:nth-child(10) { grid-column: span 6; grid-row: span 3; }
+.gallery-item:nth-child(11) { grid-column: span 6; grid-row: span 3; }
 .gallery-note { margin: 30px auto 0; max-width: 720px; text-align: center; color: var(--muted); }
 .lightbox { position: fixed; inset: 0; z-index: 999; display: none; place-items: center; padding: 30px; background: rgba(7,7,6,.92); backdrop-filter: blur(10px); }
 .lightbox.is-open { display: grid; }
-.lightbox img { max-width: min(1100px, 94vw); max-height: 82vh; width: auto; height: auto; object-fit: contain; border-radius: 16px; box-shadow: 0 30px 100px rgba(0,0,0,.5); }
+.lightbox img { max-width: min(1100px, 94vw); max-height: 82vh; width: auto; height: auto; object-fit: contain; padding: 18px; background: linear-gradient(145deg,#a87548,#4a2c1b); border: 1px solid rgba(255,255,255,.2); box-shadow: 0 30px 100px rgba(0,0,0,.5); }
 .lightbox-close { position: fixed; top: 22px; right: 24px; width: 46px; height: 46px; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; background: rgba(255,255,255,.08); color: white; font-size: 26px; cursor: pointer; }
 .lightbox-caption { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); color: rgba(255,255,255,.75); font-size: 13px; text-align: center; }
 @media (max-width: 760px) {
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 190px; gap: 12px; }
   .gallery-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
-  .gallery-item:nth-child(1), .gallery-item:nth-child(4) { grid-column: span 2; grid-row: span 2; }
-  .gallery-overlay { padding: 15px; }
-  .gallery-overlay strong { font-size: 13px; }
+  .gallery-item:nth-child(1), .gallery-item:nth-child(4), .gallery-item:nth-child(9) { grid-column: span 2; grid-row: span 2; }
+  .gallery-item { padding: 10px; }
+  .gallery-item::after { inset: 10px; border-width: 7px; }
+  .gallery-overlay { inset: auto 17px 17px; }
+  .gallery-overlay strong { font-size: 12px; }
   .lightbox { padding: 16px; }
 }
 </style>
@@ -54,36 +92,33 @@
 
 <main>
 <section class="inner-hero"><div class="container"><p class="eyebrow">Our workmanship</p><h1>Before &amp; After</h1><p>To showcase our expertise, here are some snapshots of recent repair and installation work we've completed.</p></div></section>
-
 <section class="section work-section">
   <div class="container">
     <div class="gallery-intro">
-      <p class="eyebrow">Recent work</p>
+      <p class="eyebrow">Our work</p>
       <h2>See the difference.</h2>
-      <p>Take a look through some of our recent chimney, stove and repair work. Tap any image to view it full size.</p>
+      <p>Take a look through our chimney, stove, repair and installation work. Tap any image to view it full size.</p>
     </div>
-
     <div class="gallery-grid" aria-label="TB Sweeps project gallery">
-      <figure class="gallery-item" data-image="tb1.png" data-caption="TB Sweeps — recent project 1"><img src="tb1.png" alt="TB Sweeps chimney and stove work — project 1" loading="eager"><figcaption class="gallery-overlay"><strong>Recent project</strong><span>↗</span></figcaption></figure>
-      <figure class="gallery-item" data-image="tb2.png" data-caption="TB Sweeps — recent project 2"><img src="tb2.png" alt="TB Sweeps chimney and stove work — project 2" loading="lazy"><figcaption class="gallery-overlay"><strong>Recent project</strong><span>↗</span></figcaption></figure>
-      <figure class="gallery-item" data-image="tb3.png" data-caption="TB Sweeps — recent project 3"><img src="tb3.png" alt="TB Sweeps chimney and stove work — project 3" loading="lazy"><figcaption class="gallery-overlay"><strong>Recent project</strong><span>↗</span></figcaption></figure>
-      <figure class="gallery-item" data-image="tb4.png" data-caption="TB Sweeps — recent project 4"><img src="tb4.png" alt="TB Sweeps chimney and stove work — project 4" loading="lazy"><figcaption class="gallery-overlay"><strong>Recent project</strong><span>↗</span></figcaption></figure>
-      <figure class="gallery-item" data-image="tb5.png" data-caption="TB Sweeps — recent project 5"><img src="tb5.png" alt="TB Sweeps chimney and stove work — project 5" loading="lazy"><figcaption class="gallery-overlay"><strong>Recent project</strong><span>↗</span></figcaption></figure>
-      <figure class="gallery-item" data-image="tb6.png" data-caption="TB Sweeps — recent project 6"><img src="tb6.png" alt="TB Sweeps chimney and stove work — project 6" loading="lazy"><figcaption class="gallery-overlay"><strong>Recent project</strong><span>↗</span></figcaption></figure>
-      <figure class="gallery-item" data-image="tb7.png" data-caption="TB Sweeps — recent project 7"><img src="tb7.png" alt="TB Sweeps chimney and stove work — project 7" loading="lazy"><figcaption class="gallery-overlay"><strong>Recent project</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb1.png" data-caption="TB Sweeps — project 1"><img src="tb1.png" alt="TB Sweeps chimney and stove work — project 1" loading="eager"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb2.png" data-caption="TB Sweeps — project 2"><img src="tb2.png" alt="TB Sweeps chimney and stove work — project 2" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb3.png" data-caption="TB Sweeps — project 3"><img src="tb3.png" alt="TB Sweeps chimney and stove work — project 3" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb4.png" data-caption="TB Sweeps — project 4"><img src="tb4.png" alt="TB Sweeps chimney and stove work — project 4" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb5.png" data-caption="TB Sweeps — project 5"><img src="tb5.png" alt="TB Sweeps chimney and stove work — project 5" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb6.png" data-caption="TB Sweeps — project 6"><img src="tb6.png" alt="TB Sweeps chimney and stove work — project 6" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb7.png" data-caption="TB Sweeps — project 7"><img src="tb7.png" alt="TB Sweeps chimney and stove work — project 7" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb8.png" data-caption="TB Sweeps — project 8"><img src="tb8.png" alt="TB Sweeps chimney and stove work — project 8" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb9.png" data-caption="TB Sweeps — project 9"><img src="tb9.png" alt="TB Sweeps chimney and stove work — project 9" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb10.png" data-caption="TB Sweeps — project 10"><img src="tb10.png" alt="TB Sweeps chimney and stove work — project 10" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
+      <figure class="gallery-item" data-image="tb11.png" data-caption="TB Sweeps — project 11"><img src="tb11.png" alt="TB Sweeps chimney and stove work — project 11" loading="lazy"><figcaption class="gallery-overlay"><strong>TB Sweeps</strong><span>↗</span></figcaption></figure>
     </div>
-
     <p class="gallery-note">Want your chimney or stove work looking this good? <a class="text-link" href="tel:+447309851855">Call TB Sweeps <span>→</span></a></p>
   </div>
 </section>
-
 <section class="cta-section"><div class="container cta-inner"><div><p class="eyebrow">Need chimney work?</p><h2>Talk to TB Sweeps today.</h2><p>Book a hassle-free, professional service.</p></div><div class="cta-actions"><a class="button button-light" href="tel:+447309851855">Call 07309 851 855</a><a class="button button-outline-light" href="services.html">View services</a></div></div></section>
 </main>
-
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Project image viewer"><button class="lightbox-close" id="lightboxClose" aria-label="Close image viewer">×</button><img id="lightboxImage" src="" alt=""><div class="lightbox-caption" id="lightboxCaption"></div></div>
-
 <footer class="site-footer"><div class="container footer-grid"><div><a class="brand footer-brand" href="index.html"><img class="brand-mark" src="tblogo.png" alt="TB Sweeps" style="object-fit:contain;padding:4px"><span>TB <strong>Sweeps</strong></span></a><p>HETAS approved chimney sweep and stove installer serving Manchester, Tameside, and surrounding areas.</p></div><div><h3>Contact</h3><a href="tel:+447309851855">07309 851 855</a><a href="mailto:tomybarker94@icloud.com">tomybarker94@icloud.com</a></div><div><h3>Opening Hours</h3><p>Monday - Sunday<br>Open 24 hours</p></div></div><div class="container footer-bottom"><span>© <span class="year"></span> TB Sweeps. All rights reserved.</span><span>Manchester · Tameside · Surrounding Areas</span></div></footer>
-
 <script>
 const toggle=document.querySelector('.menu-toggle'),nav=document.querySelector('#site-nav');
 toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));nav.classList.toggle('is-open',!open)});
