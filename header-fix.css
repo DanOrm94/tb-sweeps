@@ -1,0 +1,13 @@
+/* Shared header fixes */
+.brand{flex:0 0 290px!important;min-width:290px!important;gap:10px!important;white-space:nowrap!important}
+.brand>span:not(.brand-mark){display:none!important}
+.brand::after{content:"TB Sweeps & Stoves";font-family:"Manrope",sans-serif;font-size:17px;line-height:1;font-weight:800;letter-spacing:-.04em;white-space:nowrap}
+.site-nav .hetas-badge{display:none!important}
+@media (max-width:1120px){
+  .brand{flex-basis:250px!important;min-width:250px!important}
+  .brand::after{font-size:15px}
+}
+@media (max-width:850px){
+  .brand{flex-basis:auto!important;min-width:0!important}
+  .brand::after{font-size:14px}
+}
