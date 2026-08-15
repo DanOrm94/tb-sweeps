@@ -1,1 +1,4 @@
 @import url("theme.css");
+
+/* Footer contact details: keep phone and email on separate lines. */
+.footer-grid>div:not(:first-child) a{display:block;margin-bottom:10px;line-height:1.5;}
