@@ -10,8 +10,6 @@ export default {
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('text/html')) return response;
     const transformed = new HTMLRewriter()
-      .on('head', new HeadEnhancer())
-      .on('.chimney-art', new BurnerVideoRewriter())
       .on('a.nav-cta', new BookNowLinkRewriter())
       .on('a[href="https://www.tb-sweeps.com/booknow"]', new BookNowLinkRewriter())
       .transform(response);
@@ -21,18 +19,6 @@ export default {
     return new Response(transformed.body, { status: transformed.status, statusText: transformed.statusText, headers });
   }
 };
-
-class HeadEnhancer {
-  element(element) {
-    element.append(`<style>.hero-burner-video{display:block;width:100%;height:100%;min-height:320px;object-fit:cover;object-position:center;border:0;border-radius:3px;background:#050505;box-shadow:none}.hero-card .chimney-art{overflow:hidden}@media(max-width:700px){.hero-burner-video{min-height:260px}}@media(prefers-reduced-motion:reduce){.hero-burner-video{display:block}}</style>`, { html: true });
-  }
-}
-
-class BurnerVideoRewriter {
-  element(element) {
-    element.setInnerContent(`<video class="hero-burner-video" autoplay muted loop playsinline preload="auto" aria-label="Log burner flame at TB Sweeps & Stoves"><source src="/burner.mp4?v=2" type="video/mp4"></video>`, { html: true });
-  }
-}
 
 class BookNowLinkRewriter {
   element(element) { element.setAttribute('href', 'booknow.html'); }
