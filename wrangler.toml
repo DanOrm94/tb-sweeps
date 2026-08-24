@@ -1,0 +1,6 @@
+name = "tb-sweeps"
+main = "worker.js"
+compatibility_date = "2026-08-24"
+
+[vars]
+RESEND_FROM = "TB Sweeps Website <onboarding@resend.dev>"
