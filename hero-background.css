@@ -4,5 +4,12 @@
 .hero::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,12,11,.42) 0%,rgba(9,12,11,.28) 50%,rgba(9,12,11,.18) 100%);z-index:1;pointer-events:none;}
 .hero-glow{position:relative;z-index:2;}
 .hero-grid{position:relative;z-index:3;}
-@media(max-width:850px){.hero-background-video{object-position:center center}.hero::before{background:linear-gradient(180deg,rgba(9,12,11,.42),rgba(9,12,11,.28));}}
+@media(max-width:850px){
+  .hero{overflow:hidden;}
+  .hero-background-video{inset:10%;width:80%;height:80%;object-position:center center;object-fit:cover;}
+  .hero::before{background:linear-gradient(180deg,rgba(9,12,11,.42),rgba(9,12,11,.28));}
+}
+@media(max-width:580px){
+  .hero-background-video{inset:10%;width:80%;height:80%;}
+}
 @media(prefers-reduced-motion:reduce){.hero-background-video{display:none}.hero{background:#090c0b;}}
