@@ -10,11 +10,25 @@ export default {
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('text/html')) return response;
     return new HTMLRewriter()
+      .on('head', new HeadEnhancer())
+      .on('.chimney-art', new BurnerVideoRewriter())
       .on('a.nav-cta', new BookNowLinkRewriter())
       .on('a[href="https://www.tb-sweeps.com/booknow"]', new BookNowLinkRewriter())
       .transform(response);
   }
 };
+
+class HeadEnhancer {
+  element(element) {
+    element.append(`<style>.hero-burner-video{display:block;width:100%;height:100%;min-height:320px;object-fit:cover;object-position:center;border:1px solid #171717;background:#050505;box-shadow:0 12px 24px rgba(0,0,0,.32)}@media(max-width:700px){.hero-burner-video{min-height:260px}}@media(prefers-reduced-motion:reduce){.hero-burner-video{display:block}}</style>`, { html: true });
+  }
+}
+
+class BurnerVideoRewriter {
+  element(element) {
+    element.setInnerContent(`<video class="hero-burner-video" autoplay muted loop playsinline preload="metadata" aria-label="Log burner flame at TB Sweeps & Stoves"><source src="/burner.mp4" type="video/mp4"></video>`, { html: true });
+  }
+}
 
 class BookNowLinkRewriter {
   element(element) { element.setAttribute('href', 'booknow.html'); }
