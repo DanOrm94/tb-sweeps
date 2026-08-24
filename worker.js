@@ -24,13 +24,13 @@ export default {
 
 class HeadEnhancer {
   element(element) {
-    element.append(`<style>.hero-background-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;z-index:0;pointer-events:none}@media(prefers-reduced-motion:reduce){.hero-background-video{display:none}}</style>`, { html: true });
+    element.append(`<style>.hero{background:#090c0b!important}.hero-background-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;z-index:0;pointer-events:none}.hero::before{z-index:1!important}.hero-grid{position:relative;z-index:2!important}@media(prefers-reduced-motion:reduce){.hero-background-video{display:none}}</style>`, { html: true });
   }
 }
 
 class HeroBackgroundRewriter {
   element(element) {
-    element.prepend(`<video class="hero-background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="/burner.mp4?v=3" type="video/mp4"></video>`, { html: true });
+    element.prepend(`<video class="hero-background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="/burner.mp4?v=4" type="video/mp4"></video>`, { html: true });
   }
 }
 
