@@ -10,6 +10,8 @@ export default {
     const contentType = response.headers.get('content-type') || '';
     if (!contentType.includes('text/html')) return response;
     const transformed = new HTMLRewriter()
+      .on('head', new HeadEnhancer())
+      .on('.hero', new HeroBackgroundRewriter())
       .on('a.nav-cta', new BookNowLinkRewriter())
       .on('a[href="https://www.tb-sweeps.com/booknow"]', new BookNowLinkRewriter())
       .transform(response);
@@ -19,6 +21,18 @@ export default {
     return new Response(transformed.body, { status: transformed.status, statusText: transformed.statusText, headers });
   }
 };
+
+class HeadEnhancer {
+  element(element) {
+    element.append(`<style>.hero-background-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;z-index:0;pointer-events:none}@media(prefers-reduced-motion:reduce){.hero-background-video{display:none}}</style>`, { html: true });
+  }
+}
+
+class HeroBackgroundRewriter {
+  element(element) {
+    element.prepend(`<video class="hero-background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="/burner.mp4?v=3" type="video/mp4"></video>`, { html: true });
+  }
+}
 
 class BookNowLinkRewriter {
   element(element) { element.setAttribute('href', 'booknow.html'); }
