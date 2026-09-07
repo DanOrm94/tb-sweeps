@@ -36,7 +36,8 @@ export default {
 
 class HeadEnhancer {
   element(element) {
-    element.append(`<script async src="https://www.googletagmanager.com/gtag/js?id=AW-1843634770"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date);gtag('config','AW-1843634770');</script><style>.hero{background:#090c0b!important}.hero-background-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;z-index:0;pointer-events:none}.hero::before{z-index:1!important}.hero-grid{position:relative;z-index:2!important}@media(prefers-reduced-motion:reduce){.hero-background-video{display:none}}</style>`, { html: true });
+    element.prepend(`<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=AW-1843634770"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-1843634770');</script>`, { html: true });
+    element.append(`<style>.hero{background:#090c0b!important}.hero-background-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;z-index:0;pointer-events:none}.hero::before{z-index:1!important}.hero-grid{position:relative;z-index:2!important}@media(prefers-reduced-motion:reduce){.hero-background-video{display:none}}</style>`, { html: true });
   }
 }
 
