@@ -75,6 +75,7 @@ async function handleContact(request, env) {
   const email = clean(data.email, 254);
   const phone = clean(data.phone, 50);
   const message = clean(data.message, 5000);
+  const extras = Array.isArray(data.extras) ? data.extras.map(item => clean(item, 160)).filter(Boolean).slice(0, 20) : [];
 
   if (!name || !email || !message) return json({ ok: false, error: 'Please complete the required fields.' }, 400, origin);
   if (!/^\S+@\S+\.\S+$/.test(email)) return json({ ok: false, error: 'Please enter a valid email address.' }, 400, origin);
@@ -84,6 +85,7 @@ async function handleContact(request, env) {
   const safeEmail = escapeHtml(email);
   const safePhone = escapeHtml(phone || 'Not provided');
   const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+  const safeExtras = extras.length ? extras.map(escapeHtml).join('<br>') : 'None selected';
 
   const resend = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -96,7 +98,7 @@ async function handleContact(request, env) {
       to: ['tomybarker94@icloud.com'],
       reply_to: email,
       subject: `New website enquiry from ${name}`,
-      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Extras:</strong></p><p>${safeExtras}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`
     })
   });
 
