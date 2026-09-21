@@ -11,3 +11,19 @@
   .brand{flex-basis:auto!important;min-width:0!important}
   .brand::after{font-size:14px}
 }
+
+/* Prevent the desktop navigation crowding the brand. */
+@media (max-width:1000px){
+  .menu-toggle{display:block;margin-left:0}
+  .mobile-instagram{display:inline-flex;margin-left:auto;flex:0 0 auto}
+  .nav-wrap{min-height:76px}
+  .site-nav{position:absolute;top:76px;left:0;right:0;display:none;padding:18px 24px 25px;flex-direction:column;align-items:stretch;background:#241b14}
+  .site-nav.is-open{display:flex}
+  .site-nav a{padding:10px 0;white-space:normal}
+}
+@media (min-width:1001px){
+  .site-nav{gap:11px;font-size:11px}
+  .brand{flex-basis:230px!important;min-width:230px!important}
+  .brand-mark{width:78px}
+  .brand::after{font-size:15px}
+}
