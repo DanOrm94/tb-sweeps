@@ -117,7 +117,7 @@
                 aria-expanded="false"><span></span><span></span><span></span><span class="sr-only">Open
                     Menu</span></button>
             <nav id="site-nav" class="site-nav" aria-label="Main navigation"><a href="about-us.html">About Us</a><a
-                    href="services.html">Services</a><a href="chimney-sweeping.html">Chimney Sweeping</a><a
+                    href="services.html">Services</a><a href="shop.html">Shop</a><a href="chimney-sweeping.html">Chimney Sweeping</a><a
                     href="log-burner-installations.html">Log Burner Installations</a><a href="kiln-dried-logs.html">Kiln
                     Dried Logs</a><a href="our-work.html">Our Work</a><a href="chimney-repairs.html">Chimney
                     Repairs</a><a href="reviews.html">Reviews</a><a class="nav-cta" href="booknow.html"
@@ -159,6 +159,15 @@
                                 <option>Kiln Dried Logs</option>
                                 <option>Other / Advice</option>
                             </select></div>
+                        <div><label for="extras">Extras</label><select id="extras" name="extras" multiple size="7" aria-describedby="extras-help">
+                                <option value="Hardwood Logs — £7.99 per sack">Hardwood Logs — £7.99 per sack</option>
+                                <option value="Softwood Logs — £6.99 per sack">Softwood Logs — £6.99 per sack</option>
+                                <option value="Kindling — £2.99 per sack">Kindling — £2.99 per sack</option>
+                                <option value="Firelighters — £2.99 (24 cubes)">Firelighters — £2.99 (24 cubes)</option>
+                                <option value="Stove Fan — £39.99">Stove Fan — £39.99</option>
+                                <option value="Thermometer — £9.99">Thermometer — £9.99</option>
+                                <option value="Carbon Monoxide Alarm — £24.99">Carbon Monoxide Alarm — £24.99</option>
+                            </select><small id="extras-help">Select one or more extras. You can also build an order in our <a href="shop.html">Shop</a>.</small></div>
                         <div><label for="message">What do you need? *</label><textarea id="message" name="message"
                                 required placeholder="Tell us a little about the job..."></textarea></div>
                         <div class="honeypot" aria-hidden="true"><label for="website">Website</label><input id="website"
@@ -187,7 +196,6 @@
             </div>
         </div>
     </footer>
-    <script>const toggle = document.querySelector('.menu-toggle'), nav = document.querySelector('#site-nav'); toggle.addEventListener('click', () => { const open = toggle.getAttribute('aria-expanded') === 'true'; toggle.setAttribute('aria-expanded', String(!open)); nav.classList.toggle('is-open', !open) }); const form = document.querySelector('#bookingForm'), status = document.querySelector('#status'); form.addEventListener('submit', async e => { e.preventDefault(); status.className = 'form-status'; status.textContent = 'Sending…'; const data = Object.fromEntries(new FormData(form).entries()); const service = data.service; data.message = service ? `Service: ${service}\n\n${data.message}` : data.message; try { const res = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) }); const result = await res.json(); if (!res.ok || !result.ok) throw new Error(result.error || 'Unable to send'); status.className = 'form-status success'; status.textContent = 'Thanks — your booking enquiry has been sent.'; gtag('event', 'conversion', { 'send_to': 'AW-1843634770/z02ZCPuc0PACELK4KndE' }); form.reset() } catch (err) { status.className = 'form-status error'; status.textContent = 'Sorry, we could not send that. Please call 07309 851 855.' } });</script>
-</body>
+    <script>const toggle=document.querySelector('.menu-toggle'),nav=document.querySelector('#site-nav');toggle.addEventListener('click',()=>{const open=toggle.getAttribute('aria-expanded')==='true';toggle.setAttribute('aria-expanded',String(!open));nav.classList.toggle('is-open',!open)});nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{toggle.setAttribute('aria-expanded','false');nav.classList.remove('is-open')}));const form=document.querySelector('#bookingForm'),status=document.querySelector('#status'),extras=document.querySelector('#extras'),params=new URLSearchParams(location.search),order=params.get('order');if(order){document.querySelector('#message').value=`Shop order enquiry:\n${order}\n\n`;status.textContent='Your shop order has been added to this enquiry.'}form.addEventListener('submit',async e=>{e.preventDefault();status.className='form-status';status.textContent='Sending…';const formData=new FormData(form),data=Object.fromEntries(formData.entries()),selectedExtras=Array.from(extras.selectedOptions).map(option=>option.value);data.extras=selectedExtras;const service=data.service;let message=data.message;if(service)message=`Service: ${service}\n\n${message}`;if(selectedExtras.length)message=`Extras requested: ${selectedExtras.join(', ')}\n\n${message}`;data.message=message;try{const res=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}),result=await res.json();if(!res.ok||!result.ok)throw new Error(result.error||'Unable to send');status.className='form-status success';status.textContent='Thanks — your booking enquiry has been sent.';gtag('event','conversion',{'send_to':'AW-1843634770/z02ZCPuc0PACELK4KndE'});form.reset()}catch(err){status.className='form-status error';status.textContent='Sorry, we could not send that. Please call 07309 851 855.'}});</script></body>
 
 </html>
