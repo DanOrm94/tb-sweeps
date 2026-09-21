@@ -60,22 +60,23 @@ async function handleContact(request, env) {
   if (request.headers.get('Origin') && !origin) return json({ ok: false, error: 'Origin not allowed.' }, 403, null);
 
   const contentType = request.headers.get('content-type') || '';
-  if (!contentType.includes('application/json')) return json({ ok: false, error: 'Expected JSON.' }, 415, origin);
+  if (!contentType.includes('multipart/form-data')) return json({ ok: false, error: 'Expected form data.' }, 415, origin);
 
-  let data;
+  let formData;
   try {
-    data = await request.json();
+    formData = await request.formData();
   } catch {
     return json({ ok: false, error: 'Invalid request.' }, 400, origin);
   }
 
-  if (String(data.website || '').trim()) return json({ ok: true }, 200, origin);
+  if (String(formData.get('website') || '').trim()) return json({ ok: true }, 200, origin);
 
-  const name = clean(data.name, 120);
-  const email = clean(data.email, 254);
-  const phone = clean(data.phone, 50);
-  const message = clean(data.message, 5000);
-  const extras = Array.isArray(data.extras) ? data.extras.map(item => clean(item, 160)).filter(Boolean).slice(0, 20) : [];
+  const name = clean(formData.get('name'), 120);
+  const email = clean(formData.get('email'), 254);
+  const phone = clean(formData.get('phone'), 50);
+  const message = clean(formData.get('message'), 5000);
+  const chimneyLining = clean(formData.get('chimneyLining'), 40);
+  const extras = formData.getAll('extras').map(item => clean(item, 160)).filter(Boolean).slice(0, 20);
 
   if (!name || !email || !message) return json({ ok: false, error: 'Please complete the required fields.' }, 400, origin);
   if (!/^\S+@\S+\.\S+$/.test(email)) return json({ ok: false, error: 'Please enter a valid email address.' }, 400, origin);
@@ -85,7 +86,22 @@ async function handleContact(request, env) {
   const safeEmail = escapeHtml(email);
   const safePhone = escapeHtml(phone || 'Not provided');
   const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+  const safeChimneyLining = escapeHtml(chimneyLining || 'Not provided');
   const safeExtras = extras.length ? extras.map(escapeHtml).join('<br>') : 'None selected';
+
+  const uploadedFiles = formData.getAll('photos').filter(file => file && typeof file.arrayBuffer === 'function' && file.size > 0);
+  if (uploadedFiles.length > 5) return json({ ok: false, error: 'Please attach no more than 5 photos.' }, 400, origin);
+  const maxPhotoSize = 5 * 1024 * 1024;
+  if (uploadedFiles.some(file => !String(file.type || '').startsWith('image/') || file.size > maxPhotoSize)) return json({ ok: false, error: 'Photos must be image files no larger than 5 MB each.' }, 400, origin);
+  const totalPhotoSize = uploadedFiles.reduce((sum, file) => sum + file.size, 0);
+  if (totalPhotoSize > 20 * 1024 * 1024) return json({ ok: false, error: 'The total photo size is too large. Please attach smaller photos.' }, 400, origin);
+  const attachments = [];
+  for (const file of uploadedFiles) {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    let binary = '';
+    for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+    attachments.push({ filename: String(file.name || 'fireplace-photo').replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120), content: btoa(binary), content_type: file.type || 'application/octet-stream' });
+  }
 
   const resend = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -98,7 +114,8 @@ async function handleContact(request, env) {
       to: ['tomybarker94@icloud.com'],
       reply_to: email,
       subject: `New website enquiry from ${name}`,
-      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Extras:</strong></p><p>${safeExtras}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Chimney lining:</strong> ${safeChimneyLining}</p><p><strong>Extras:</strong></p><p>${safeExtras}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`,
+      attachments: attachments
     })
   });
 
