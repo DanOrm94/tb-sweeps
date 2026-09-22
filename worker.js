@@ -107,23 +107,29 @@ async function handleContact(request, env) {
     attachments.push({ filename: String(file.name || 'fireplace-photo').replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120), content: btoa(binary), content_type: file.type || 'application/octet-stream' });
   }
 
+  const emailPayload = {
+    from: env.RESEND_FROM || 'TB Sweeps Website <onboarding@resend.dev>',
+    to: ['tomybarker94@icloud.com'],
+    reply_to: email,
+    subject: `New website enquiry from ${name}`,
+    html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Address:</strong> ${safeAddress}</p><p><strong>Postcode:</strong> ${safePostcode}</p><p><strong>Chimney lining:</strong> ${safeChimneyLining}</p><p><strong>Extras:</strong></p><p>${safeExtras}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`
+  };
+  if (attachments.length) emailPayload.attachments = attachments;
+
   const resend = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({
-      from: env.RESEND_FROM || 'TB Sweeps Website <onboarding@resend.dev>',
-      to: ['tomybarker94@icloud.com'],
-      reply_to: email,
-      subject: `New website enquiry from ${name}`,
-      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Address:</strong> ${safeAddress}</p><p><strong>Postcode:</strong> ${safePostcode}</p><p><strong>Chimney lining:</strong> ${safeChimneyLining}</p><p><strong>Extras:</strong></p><p>${safeExtras}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`,
-      attachments: attachments
-    })
+    body: JSON.stringify(emailPayload)
   });
 
-  if (!resend.ok) return json({ ok: false, error: 'We could not send your message. Please call us instead.' }, 502, origin);
+  if (!resend.ok) {
+    const resendError = await resend.text();
+    console.error('Resend email error:', resend.status, resendError);
+    return json({ ok: false, error: 'We could not send your message. Please call us instead.' }, 502, origin);
+  }
   return json({ ok: true, message: 'Thanks — your enquiry has been sent.' }, 200, origin);
 }
 
