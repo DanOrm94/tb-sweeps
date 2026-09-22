@@ -7,4 +7,4 @@ directory = "."
 binding = "ASSETS"
 
 [vars]
-RESEND_FROM = "TB Sweeps Website <onboarding@resend.dev>"
+RESEND_FROM = "TB Sweeps Website <website@tb-sweeps.com>"
