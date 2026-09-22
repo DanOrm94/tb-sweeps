@@ -72,17 +72,21 @@ async function handleContact(request, env) {
   if (String(formData.get('website') || '').trim()) return json({ ok: true }, 200, origin);
 
   const name = clean(formData.get('name'), 120);
+  const address = clean(formData.get('address'), 250);
+  const postcode = clean(formData.get('postcode'), 20);
   const email = clean(formData.get('email'), 254);
   const phone = clean(formData.get('phone'), 50);
   const message = clean(formData.get('message'), 5000);
   const chimneyLining = clean(formData.get('chimneyLining'), 40);
   const extras = formData.getAll('extras').map(item => clean(item, 160)).filter(Boolean).slice(0, 20);
 
-  if (!name || !email || !message) return json({ ok: false, error: 'Please complete the required fields.' }, 400, origin);
+  if (!name || !email || !address || !postcode || !message) return json({ ok: false, error: 'Please complete the required fields.' }, 400, origin);
   if (!/^\S+@\S+\.\S+$/.test(email)) return json({ ok: false, error: 'Please enter a valid email address.' }, 400, origin);
   if (!env.RESEND_API_KEY) return json({ ok: false, error: 'Email service is not configured.' }, 500, origin);
 
   const safeName = escapeHtml(name);
+  const safeAddress = escapeHtml(address);
+  const safePostcode = escapeHtml(postcode);
   const safeEmail = escapeHtml(email);
   const safePhone = escapeHtml(phone || 'Not provided');
   const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
@@ -114,7 +118,7 @@ async function handleContact(request, env) {
       to: ['tomybarker94@icloud.com'],
       reply_to: email,
       subject: `New website enquiry from ${name}`,
-      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Chimney lining:</strong> ${safeChimneyLining}</p><p><strong>Extras:</strong></p><p>${safeExtras}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`,
+      html: `<div style="font-family:Arial,sans-serif;line-height:1.6;color:#222"><h2>New TB Sweeps website enquiry</h2><p><strong>Name:</strong> ${safeName}</p><p><strong>Email:</strong> ${safeEmail}</p><p><strong>Phone:</strong> ${safePhone}</p><p><strong>Address:</strong> ${safeAddress}</p><p><strong>Postcode:</strong> ${safePostcode}</p><p><strong>Chimney lining:</strong> ${safeChimneyLining}</p><p><strong>Extras:</strong></p><p>${safeExtras}</p><p><strong>Message:</strong></p><p>${safeMessage}</p></div>`,
       attachments: attachments
     })
   });
