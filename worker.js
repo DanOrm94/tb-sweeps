@@ -36,7 +36,25 @@ export default {
 
 class HeadEnhancer {
   element(element) {
-    element.prepend(`<!-- Google tag (gtag.js) --><script async src="https://www.googletagmanager.com/gtag/js?id=AW-1843634770"></script><script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'AW-1843634770');</script>`, { html: true });
+    element.prepend(`<!-- Google Ads tracking - TB Sweeps. Added site-wide by the Worker. --><script async src="https://www.googletagmanager.com/gtag/js?id=AW-18542664058"></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18542664058');
+      gtag('config', 'AW-18542664058/jCKOCKOOsa4dEPqy6olF', {'phone_conversion_number': '07309 851 855'});
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a, button');
+        if (!a) return;
+        var href = (a.getAttribute('href') || '').toLowerCase();
+        var txt = (a.textContent || '').trim().toLowerCase();
+        if (href.indexOf('booknow') > -1 || href.indexOf('book-now') > -1 || txt.indexOf('book now') > -1) {
+          gtag('event', 'conversion', {'send_to': 'AW-18542664058/hnjDCKaOsa4dEPqy6olF'});
+        }
+      }, true);
+      document.addEventListener('submit', function () {
+        gtag('event', 'conversion', {'send_to': 'AW-18542664058/hnjDCKaOsa4dEPqy6olF'});
+      }, true);
+    </script>`, { html: true });
     element.append(`<style>.hero{background:#090c0b!important}.hero-background-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;display:block;z-index:0;pointer-events:none}.hero::before{z-index:1!important}.hero-grid{position:relative;z-index:2!important}@media(prefers-reduced-motion:reduce){.hero-background-video{display:none}}</style>`, { html: true });
   }
 }
