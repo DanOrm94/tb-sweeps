@@ -2,6 +2,29 @@
 <html lang="en-GB">
 
 <head>
+    <!-- Google Ads tracking - TB Sweeps -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18542664058"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-18542664058');
+      gtag('config', 'AW-18542664058/jCKOCKOOsa4dEPqy6olF', {
+        'phone_conversion_number': '07309 851 855'
+      });
+      document.addEventListener('click', function (e) {
+        var a = e.target.closest('a, button');
+        if (!a) return;
+        var href = (a.getAttribute('href') || '').toLowerCase();
+        var txt = (a.textContent || '').trim().toLowerCase();
+        if (href.indexOf('booknow') > -1 || href.indexOf('book-now') > -1 || txt.indexOf('book now') > -1) {
+          gtag('event', 'conversion', {'send_to': 'AW-18542664058/hnjDCKaOsa4dEPqy6olF'});
+        }
+      }, true);
+      document.addEventListener('submit', function () {
+        gtag('event', 'conversion', {'send_to': 'AW-18542664058/hnjDCKaOsa4dEPqy6olF'});
+      }, true);
+    </script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>About TB Sweeps | Chimney Sweep & Stove Installer Manchester</title>
