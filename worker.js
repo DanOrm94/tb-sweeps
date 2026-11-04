@@ -42,7 +42,7 @@ class HeadEnhancer {
 
 class HeroBackgroundRewriter {
   element(element) {
-    element.prepend(`<video class="hero-background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="/burner.mp4?v=4" type="video/mp4"></video>`, { html: true });
+    element.prepend(`<video class="hero-background-video" autoplay muted loop playsinline preload="auto" aria-hidden="true"><source src="/assets/burner.mp4?v=4" type="video/mp4"></video>`, { html: true });
   }
 }
 
