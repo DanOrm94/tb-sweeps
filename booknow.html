@@ -224,6 +224,103 @@
             </div>
         </div>
     </footer>
+    <script>
+        (function () {
+            var form = document.getElementById('bookingForm');
+            if (!form) return;
+            var statusEl = document.getElementById('status');
+            var submitBtn = form.querySelector('button[type="submit"]');
+            var whatsappBtn = document.getElementById('whatsappEnquiry');
+            var WHATSAPP_NUMBER = '447309851855';
+
+            function setStatus(message, type) {
+                if (!statusEl) return;
+                statusEl.textContent = message || '';
+                statusEl.classList.remove('success', 'error');
+                if (type) statusEl.classList.add(type);
+            }
+
+            function requiredFieldsValid() {
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return false;
+                }
+                return true;
+            }
+
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Honeypot: silently succeed for bots.
+                if (form.website && form.website.value.trim()) {
+                    setStatus('Thanks — your enquiry has been sent.', 'success');
+                    form.reset();
+                    return;
+                }
+
+                if (!requiredFieldsValid()) return;
+
+                var originalLabel = submitBtn ? submitBtn.textContent : '';
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Sending…';
+                }
+                setStatus('Sending your enquiry…', null);
+
+                fetch('/api/contact', {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                    .then(function (res) {
+                        return res.json().catch(function () { return { ok: res.ok }; });
+                    })
+                    .then(function (data) {
+                        if (data && data.ok) {
+                            setStatus((data && data.message) || 'Thanks — your enquiry has been sent.', 'success');
+                            form.reset();
+                        } else {
+                            setStatus((data && data.error) || 'Something went wrong. Please call us instead.', 'error');
+                        }
+                    })
+                    .catch(function () {
+                        setStatus('We could not send your message. Please check your connection or call us instead.', 'error');
+                    })
+                    .finally(function () {
+                        if (submitBtn) {
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = originalLabel;
+                        }
+                    });
+            });
+
+            if (whatsappBtn) {
+                whatsappBtn.addEventListener('click', function () {
+                    if (!requiredFieldsValid()) return;
+
+                    var fd = new FormData(form);
+                    var extras = fd.getAll('extras').filter(Boolean);
+                    var lines = [
+                        'New enquiry from the TB Sweeps website',
+                        '',
+                        'Name: ' + (fd.get('name') || ''),
+                        'Email: ' + (fd.get('email') || ''),
+                        'Phone: ' + (fd.get('phone') || 'Not provided'),
+                        'Address: ' + (fd.get('address') || ''),
+                        'Postcode: ' + (fd.get('postcode') || ''),
+                        'Service: ' + (fd.get('service') || 'Not specified'),
+                        'Chimney lining: ' + (fd.get('chimneyLining') || 'Not provided'),
+                        'Extras: ' + (extras.length ? extras.join(', ') : 'None selected'),
+                        'Log sacks: ' + (fd.get('logQuantity') || ''),
+                        '',
+                        'Message:',
+                        (fd.get('message') || '')
+                    ];
+                    var text = encodeURIComponent(lines.join('\n'));
+                    window.open('https://wa.me/' + WHATSAPP_NUMBER + '?text=' + text, '_blank', 'noopener');
+                });
+            }
+        })();
+    </script>
 </body>
 
 </html>
